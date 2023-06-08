@@ -1,5 +1,6 @@
 const express = require('express');
-const databaseRoutes = require('./src/routes/book');
+const databaseRoutesBook = require('./src/routes/book');
+const databaseRoutesAuthor = require('./src/routes/author');
 const app = express();
 const port=3100;
 
@@ -12,7 +13,9 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use('/api/v1/tbdprojectdatabase', databaseRoutes);
+app.use('/api/v1/tbdprojectdatabase', databaseRoutesBook);
+
+app.use('/api/v1/tbdprojectdatabase', databaseRoutesAuthor);
 
 app.listen(port, () => {
     console.log(`server running on port ${port}`);

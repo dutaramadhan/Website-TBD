@@ -1,8 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {EditBook} from "./EditBook"
 
 export const Table = ({ rows, deleteRow, editRow }) => {
+  const [showEditBook, setShowEditBook] = useState(false);
+
   const navigate = useNavigate();
   return (
     <>
@@ -23,13 +27,25 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
+                      Description
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Author
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Description
+                      Publisher
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Category
                     </th>
                     <th
                       scope="col"
@@ -64,16 +80,22 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {row.description}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {row.author_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.description}
+                        {row.publisher_name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {row.category_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {row.release_year}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.name}
+                        {row.language_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {row.book_price}
@@ -91,20 +113,23 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                                 console.log(err);
                               });
                               navigate('/book-page')
+                              window.location.reload(); 
                           }}
                         >
                           Delete
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
-                          onClick={() => editRow(row.book_id)}
-                        >
-                          Edit
-                        </a>
-                      </td>
+                          <button
+                            className="text-indigo-600 hover:text-indigo-900"
+                            onClick={() => {
+                              setShowEditBook(true);}}
+                            >
+                              Edit
+                          </button>
+                          {showEditBook && <EditBook Book={row} />}
+                        </td>
+
                     </tr>
                   ))}
                 </tbody>

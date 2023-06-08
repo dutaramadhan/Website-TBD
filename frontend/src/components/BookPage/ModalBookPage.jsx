@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
 
 export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const navigate = useNavigate();
+
   const [formState, setFormState] = useState({
-    title: "",
+    book_title: "",
     description: "",
     release_year: "",
     language_id: "",
-    price: "",
+    book_price: "",
+    publisher_id: "",
+    category_id: "",
+    author_id: "",
   });
   const [errors, setErrors] = useState("");
 
@@ -22,8 +27,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   }, [defaultValue]);
 
   const validateForm = () => {
-    const { book_title, description, release_year, language_id, price} = formState;
-    if (book_title && description && release_year && language_id && price) {
+    const {  book_title,
+    description,
+    release_year,
+    language_id,
+    book_price,
+    publisher_id,
+    category_id,author_id} = formState;
+    if (book_title && description && release_year && language_id && book_price && publisher_id && category_id && author_id) {
       setErrors("");
       return true;
     } else {
@@ -53,6 +64,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       .then(response => {
         console.log(response.data);
         closeModal();
+        navigate('/book-page');
       })
       .catch(error => {
         console.error(error);
@@ -61,6 +73,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       .finally(() => {
         setIsLoading(false);
       });
+      window.location.reload();
   };
   
   return (
@@ -81,7 +94,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               Title
             </label>
             <input
-              name="title"
+              name="book_title"
               onChange={handleChange}
               value={formState.book_title}
               className="border border-black rounded-md p-1 text-base"
@@ -114,6 +127,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               Release Year
             </label>
             <input
+            type="number"
               name="release_year"
               onChange={handleChange}
               value={formState.release_year}
@@ -125,27 +139,68 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               Language ID
             </label>
             <input
+            type="number"
               name="language_id"
               onChange={handleChange}
               value={formState.language_id}
               className="border border-black rounded-md p-1 text-base"
             />
-          </div> <div className="flex flex-col mb-4">
-            <label htmlFor="price" className="font-semibold">
+          </div> 
+          <div className="flex flex-col mb-4">
+            <label htmlFor="book_price" className="font-semibold">
               Price
             </label>
             <input
-              name="price"
+            type="number"
+              name="book_price"
               onChange={handleChange}
               value={formState.book_price}
               className="border border-black rounded-md p-1 text-base"
             />
           </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="publisher_id" className="font-semibold">
+              Publisher ID
+            </label>
+            <input
+            type="number"
+              name="publisher_id"
+              onChange={handleChange}
+              value={formState.publisher_id}
+              className="border border-black rounded-md p-1 text-base"
+            />
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="category_id" className="font-semibold">
+              Category ID
+            </label>
+            <input
+            type="number"
+              name="category_id"
+              onChange={handleChange}
+              value={formState.category_id}
+              className="border border-black rounded-md p-1 text-base"
+            />
+          </div> 
+          <div className="flex flex-col mb-4">
+            <label htmlFor="author_id" className="font-semibold">
+              Author ID
+            </label>
+            <input
+            type="number"
+              name="author_id"
+              onChange={handleChange}
+              value={formState.author_id}
+              className="border border-black rounded-md p-1 text-base"
+            />
+          </div> 
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button
+          <button 
                 type="submit"
                 className="mt-4 border-none bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md"
-                onClick={handleSubmit}
+                onClick={
+                  handleSubmit
+                  }
                 disabled={isLoading} // Menonaktifkan tombol saat isLoading true
           >
             {isLoading ? 'Submitting...' : 'Submit'}
