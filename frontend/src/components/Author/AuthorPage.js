@@ -1,40 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 
-import { Table } from "./TableStaffPage";
-import { Modal } from "./ModalStaffPage";
+import { Table } from "../Author/TableAuthorPage";
+import { Modal } from "./ModalAuthorPage";
 
-export function StaffPage(){
+export function AuthorPage(){
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
-  const [rows, setRows] = useState([
-    {
-      name: "Jane Cooper",
-      address: "Pangkah",
-      store: "Bantul",
-      username: "duts",
-      email: "jane.cooper@example.com",
-      password: "duta2711"
-    },
-    {
-      name: "John Doe",
-      title: "Regional Paradigm Technician",
-      department: "Optimization",
-      username: "halo",
-      email: "john.doe@example.com",
-    },
-    {
-      name: "Veronica Lodge",
-      title: "Regional Paradigm Technician",
-      department: "Optimization",
-      username: " sopo mbuh",
-      email: "veronica.lodge@example.com",
-    },
-  ]);
+    const [author, setAuthor] = useState([]);
+
+  useEffect(()=>{
+    const url = 'http://localhost:3100/api/v1/tbdprojectdatabase/authors'
+    axios.get(url)
+    .then(response =>{
+      console.log(response.data);
+      setAuthor(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },[]);
+  
   const [rowToEdit, setRowToEdit] = useState(null);
   const handleDeleteRow = (targetIndex) => {
-    setRows(rows.filter((_, index) => index !== targetIndex));
+    setAuthor(author.filter((_, index) => index !== targetIndex));
   };
 
   const handleEditRow = (index) => {
@@ -45,9 +36,9 @@ export function StaffPage(){
 
   const handleSubmit = (newRow) => {
     rowToEdit === null
-      ? setRows([...rows, newRow])
-      : setRows(
-          rows.map((currRow, index) => {
+      ? setAuthor([...author, newRow])
+      : setAuthor(
+          author.map((currRow, index) => {
             if (index !== rowToEdit) return currRow;
 
             return newRow;
@@ -58,16 +49,16 @@ export function StaffPage(){
   return (
     <>
       <div id="staffPage" className="justify-center items-center py-20 lg:py-10 px-3 lg:px-28 h-screen text-xl">
-        <div> Tabel Staff
+        <div> Tabel Penulis
           <Table
-            rows={rows}
+            rows={author}
             deleteRow={handleDeleteRow}
             editRow={handleEditRow}
           />
           <button
             onClick={() => setModalOpen(true)}
             className="mt-4 mx-auto border-none bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md text-base"
-          >
+          > 
             Add
           </button>
           {modalOpen && (
@@ -77,7 +68,7 @@ export function StaffPage(){
                 setRowToEdit(null);
               }}
               onSubmit={handleSubmit}
-              defaultValue={rowToEdit !== null && rows[rowToEdit]}
+              defaultValue={rowToEdit !== null && author[rowToEdit]}
             />
           )}
         </div>

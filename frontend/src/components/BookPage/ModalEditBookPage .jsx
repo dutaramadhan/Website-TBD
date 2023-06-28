@@ -2,29 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+export const EditModal = ({ Book, closeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
   const navigate = useNavigate();
+  
+  const {
+    book_id,
+    book_title,
+    description,
+    release_year,
+    language_id,
+    book_price,
+    publisher_id,
+    category_id,
+    author_id
+  } = Book;
 
   const [formState, setFormState] = useState({
-    book_title: "",
-    description: "",
-    release_year: "",
-    language_id: "",
-    book_price: "",
-    publisher_id: "",
-    category_id: "",
-    author_id: "",
+    book_id: parseInt(book_id),
+    book_title: book_title,
+    description: description,
+    release_year: release_year,
+    language_id: language_id,
+    book_price: book_price,
+    publisher_id: publisher_id,
+    category_id: category_id,
+    author_id: author_id
   });
-  const [errors, setErrors] = useState("");
 
-  useEffect(() => {
-    if (defaultValue) {
-      setFormState(defaultValue);
-    }
-  }, [defaultValue]);
+
+  const [errors, setErrors] = useState("");
 
   const validateForm = () => {
     const {  book_title,
@@ -60,7 +68,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   
     setIsLoading(true);
   
-    axios.post('http://localhost:3100/api/v1/tbdprojectdatabase/books', formState)
+    axios.put(`http://localhost:3100/api/v1/tbdprojectdatabase/books/${formState.book_id}`, formState)
       .then(response => {
         console.log(response.data);
         closeModal();

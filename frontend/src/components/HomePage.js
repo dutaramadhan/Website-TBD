@@ -8,7 +8,7 @@ export const HomePage =() =>{
         <ul className="p-4">
             <li className="flex justify-between">
                 <button onClick={()=> navigate('/book-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Book Page</button>
-                <button onClick={()=> navigate('/staff-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Staff Page</button>
+                <button onClick={()=> navigate('/author-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Author Page</button>
             </li>
         </ul>
     </body>    

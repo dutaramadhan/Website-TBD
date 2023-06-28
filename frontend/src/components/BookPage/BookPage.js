@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 import { Table } from "../BookPage/TableBookPage";
-import { Modal } from "../BookPage/ModalBookPage";
+import { Modal } from "./ModalBookPage";
 
 export function BookPage(){
     const navigate = useNavigate();
@@ -23,10 +23,6 @@ export function BookPage(){
     });
   },[]);
   
-  const combinedAuthorNames = book.author_name?.map((author_name) => author_name).join(", ");
-
-    console.log(combinedAuthorNames);
-
   const [rowToEdit, setRowToEdit] = useState(null);
   const handleDeleteRow = (targetIndex) => {
     setBook(book.filter((_, index) => index !== targetIndex));

@@ -1,9 +1,18 @@
 import React from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import {EditModal} from "./ModalEditBookPage "
 import { useNavigate } from "react-router-dom";
 
 export const Table = ({ rows, deleteRow, editRow }) => {
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
   const navigate = useNavigate();
+  const handleEditModalOpen = (row) => {
+    setSelectedRow(row);
+    setEditModalOpen(true);
+  }
+
   return (
     <>
       <div className="flex flex-col">
@@ -23,13 +32,25 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
+                      Description
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Author
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Description
+                      Publisher
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Category
                     </th>
                     <th
                       scope="col"
@@ -64,16 +85,22 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {row.description}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {row.author_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.description}
+                        {row.publisher_name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {row.category_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {row.release_year}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.name}
+                        {row.language_name}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {row.book_price}
@@ -86,25 +113,36 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                             axios
                               .delete(`http://localhost:3100/api/v1/tbdprojectdatabase/books/${row.book_id}`)
                               .then((res) => {
+                                navigate('/book-page');
+                                window.location.reload(); 
                               })
                               .catch((err) => {
                                 console.log(err);
                               });
-                              navigate('/book-page')
+                             
                           }}
                         >
                           Delete
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          href="#"
+                      <button
                           className="text-indigo-600 hover:text-indigo-900"
-                          onClick={() => editRow(row.book_id)}
-                        >
-                          Edit
-                        </a>
-                      </td>
+                          onClick={() => handleEditModalOpen(row)}    
+                      >
+                      Edit
+                      </button>
+                          {editModalOpen && selectedRow===row &&(
+                          <EditModal
+                            Book= {row}
+                            closeModal={() => {
+                            setEditModalOpen(false);
+                            setSelectedRow(null);
+                          }}
+                          />
+                          )}
+                        </td>
+
                     </tr>
                   ))}
                 </tbody>
