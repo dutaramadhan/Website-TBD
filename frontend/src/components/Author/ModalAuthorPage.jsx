@@ -49,7 +49,7 @@ export const Modal = ({ closeModal }) => {
       .then(response => {
         console.log(response.data);
         closeModal();
-        navigate('/book-page');
+        navigate('/author-page');
       })
       .catch(error => {
         console.error(error);

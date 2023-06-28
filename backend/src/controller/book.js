@@ -41,12 +41,14 @@ const addBooks = async (req, res) => {
         if (result.rows.length) {
             res.send("Book already exists");
         } else {
-            // Add book to db
+            await pool.query("BEGIN");
+            await pool.query("SAVEPOINT add_book")
             await pool.query(queries.addBooks, [book_title, description, release_year, language_id, book_price, publisher_id]);
             
             await pool.query(queries.bookAuthorQuery, [book_title, author_id]);
             await pool.query(queries.bookCategoryQuery, [book_title, category_id]);
 
+            await pool.query("COMMIT")
             res.status(201).send("Book Created Successfully");
         }
     } catch (error) {
@@ -82,7 +84,6 @@ const updateBookById = async (req, res) => {
   
   let trx;
   try {
-    trx = await db.transaction();
 
     const bookQuery = `
       UPDATE book
@@ -100,19 +101,20 @@ const updateBookById = async (req, res) => {
       WHERE book_id = $2`;
 
     const values = [book_title, description, release_year, language_id, book_price, book_id];
+    
+    await pool.query("BEGIN");
+    await pool.query("SAVEPOINT update_book")
 
     await pool.query(bookQuery, values);
     await pool.query(bookAuthorQuery, [author_id, book_id]);
     await pool.query(bookCategoryQuery, [category_id, book_id]);
 
-    await trx.commit();
+    await pool.query("COMMIT");
 
     res.status(200).json({ message: "Book updated successfully" });
   } catch (err) {
     console.error(err);
-    if (trx) {
-      await trx.rollback();
-    }
+    await pool.query("ROLLBACK");
     res.status(500).json({ error: "Error updating book" });
   }
 };

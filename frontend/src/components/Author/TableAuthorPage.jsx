@@ -77,11 +77,12 @@ export const Table = ({ rows}) => {
                             axios
                               .delete(`http://localhost:3100/api/v1/tbdprojectdatabase/authors/${row.author_id}`)
                               .then((res) => {
+                                navigate('/author-page');
+                                window.location.reload();
                               })
                               .catch((err) => {
                                 console.log(err);
                               });
-                              navigate('/author-page')
                           }}
                         >
                           Delete
