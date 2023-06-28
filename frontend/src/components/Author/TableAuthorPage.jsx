@@ -1,9 +1,18 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { EditModal } from "./ModalEditAuthorPage";
+import { useState, useEffect } from "react";
 
 export const Table = ({ rows, deleteRow, editRow }) => {
   const navigate = useNavigate();
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  const handleEditModalOpen = (row) => {
+    setSelectedRow(row);
+    setEditModalOpen(true);
+  }
   return (
     <>
       <div className="flex flex-col">
@@ -13,6 +22,12 @@ export const Table = ({ rows, deleteRow, editRow }) => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
+                  <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Author ID
+                    </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -23,7 +38,7 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Year Bord
+                      Year Born
                     </th>
                     <th
                       scope="col"
@@ -36,6 +51,9 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {rows.map((row, index) => (
                     <tr key={index}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {row.author_id}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="ml-4">
@@ -70,13 +88,22 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
+                        <button
                           href="#"
                           className="text-indigo-600 hover:text-indigo-900"
-                          onClick={() => editRow(index)}
+                          onClick={() => handleEditModalOpen(row)}
                         >
                           Edit
-                        </a>
+                        </button>
+                        {editModalOpen && selectedRow===row &&(
+                          <EditModal
+                            Author= {row}
+                            closeModal={() => {
+                            setEditModalOpen(false);
+                            setSelectedRow(null);
+                          }}
+                          />
+                          )}
                       </td>
                     </tr>
                   ))}

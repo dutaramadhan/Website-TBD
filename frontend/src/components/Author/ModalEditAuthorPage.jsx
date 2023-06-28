@@ -2,24 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+export const EditModal = ({ Author, closeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
   const navigate = useNavigate();
+  
+  const {
+   author_id,
+   author_name,
+   year_born,
+   year_died
+  } = Author;
 
   const [formState, setFormState] = useState({
-    author_name: "",
-    year_born: "",
-    year_died: null,
+    author_id: parseInt(author_id),
+    author_name: author_name,
+    year_born:year_born,
+    year_died:year_died,
   });
-  const [errors, setErrors] = useState("");
 
-  useEffect(() => {
-    if (defaultValue) {
-      setFormState(defaultValue);
-    }
-  }, [defaultValue]);
+
+  const [errors, setErrors] = useState("");
 
   const validateForm = () => {
     const {  author_name,
@@ -50,11 +53,11 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   
     setIsLoading(true);
   
-    axios.post('http://localhost:3100/api/v1/tbdprojectdatabase/authors', formState)
+    axios.put(`http://localhost:3100/api/v1/tbdprojectdatabase/authors/${formState.author_id}`, formState)
       .then(response => {
         console.log(response.data);
         closeModal();
-        navigate('/book-page');
+        navigate('/author-page');
       })
       .catch(error => {
         console.error(error);
