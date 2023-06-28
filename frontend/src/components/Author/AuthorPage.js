@@ -34,17 +34,6 @@ export function AuthorPage(){
     setModalOpen(true);
   };
 
-  const handleSubmit = (newRow) => {
-    rowToEdit === null
-      ? setAuthor([...author, newRow])
-      : setAuthor(
-          author.map((currRow, index) => {
-            if (index !== rowToEdit) return currRow;
-
-            return newRow;
-          })
-        );
-  };
 
   return (
     <>
@@ -52,8 +41,6 @@ export function AuthorPage(){
         <div> Tabel Penulis
           <Table
             rows={author}
-            deleteRow={handleDeleteRow}
-            editRow={handleEditRow}
           />
           <button
             onClick={() => setModalOpen(true)}
@@ -67,8 +54,6 @@ export function AuthorPage(){
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={handleSubmit}
-              defaultValue={rowToEdit !== null && author[rowToEdit]}
             />
           )}
         </div>

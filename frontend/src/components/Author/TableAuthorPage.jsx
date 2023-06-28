@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { EditModal } from "./ModalEditAuthorPage";
 import { useState, useEffect } from "react";
 
-export const Table = ({ rows, deleteRow, editRow }) => {
+export const Table = ({ rows}) => {
   const navigate = useNavigate();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
