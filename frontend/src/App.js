@@ -5,6 +5,7 @@ import { HomePage } from "./components/HomePage";
 import { Header } from "./components/Header";
 import { AuthorPage } from "./components/Author/AuthorPage";
 import { BookPage } from "./components/BookPage/BookPage";
+import { EditBook} from "./components/BookPage/EditBook";
 
 function App() {
   return(
@@ -15,6 +16,7 @@ function App() {
       <Route path='/' element={<HomePage />}/>
       <Route path='/author-page' element={<AuthorPage />}/>
       <Route path='/book-page' element={<BookPage />}/>
+      <Route path='/book-page/edit' element={<EditBook />}/>
       </Routes>
     </BrowserRouter>
     </>

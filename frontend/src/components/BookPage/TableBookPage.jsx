@@ -3,10 +3,17 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import {EditModal} from "./ModalEditBookPage "
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {EditBook} from "./EditBook"
 
 export const Table = ({ rows, deleteRow, editRow }) => {
+<<<<<<< HEAD
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+=======
+  const [showEditBook, setShowEditBook] = useState(false);
+
+>>>>>>> 115e0ab3e8629fb06f32b80f232c334fb2a3722b
   const navigate = useNavigate();
   const handleEditModalOpen = (row) => {
     setSelectedRow(row);
@@ -119,13 +126,19 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                               .catch((err) => {
                                 console.log(err);
                               });
+<<<<<<< HEAD
                              
+=======
+                              navigate('/book-page')
+                              window.location.reload(); 
+>>>>>>> 115e0ab3e8629fb06f32b80f232c334fb2a3722b
                           }}
                         >
                           Delete
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<<<<<<< HEAD
                       <button
                           className="text-indigo-600 hover:text-indigo-900"
                           onClick={() => handleEditModalOpen(row)}    
@@ -141,6 +154,16 @@ export const Table = ({ rows, deleteRow, editRow }) => {
                           }}
                           />
                           )}
+=======
+                          <button
+                            className="text-indigo-600 hover:text-indigo-900"
+                            onClick={() => {
+                              setShowEditBook(true);}}
+                            >
+                              Edit
+                          </button>
+                          {showEditBook && <EditBook Book={row} />}
+>>>>>>> 115e0ab3e8629fb06f32b80f232c334fb2a3722b
                         </td>
 
                     </tr>
