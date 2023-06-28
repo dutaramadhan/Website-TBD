@@ -119,46 +119,6 @@ const updateBookById = async (req, res) => {
   }
 };
 
-
-//  const updateBookById = async (req, res) => {
-//     const { book_id } = req.params;
-//     const { book_title, description, release_year, language_id, book_price, author_id, publisher_id, category_id } =
-//       req.body;
-//     if (!book_title || !release_year || !language_id || !book_price || !author_id || !publisher_id || !category_id) {
-//       return res.status(400).json("Incorrect form submission");
-//     }
-//     let trx;
-//     try {
-//       trx = await db.transaction();
-//       const bookQuery = `
-//   UPDATE book
-//   SET book_title = $1, description = $2, release_year = $3, language_id = $4, book_price = $5
-//   WHERE book_id = $6`;
-// const bookAuthorQuery = `
-//   UPDATE book_author
-//   SET author_id = $1
-//   WHERE book_id = $2`;
-// const bookCategoryQuery = `
-//   UPDATE book_category
-//   SET category_id = $1
-//   WHERE book_id = $2`;
-
-// const values = [book_title, description, release_year, language_id, book_price, book_id];
-
-// await pool.query(bookQuery, values);
-// await pool.query(bookAuthorQuery, [author_id, book_id]);
-// await pool.query(bookCategoryQuery, [category_id, book_id]);
-
-//       res.status(200).json({ message: "Book updated successfully" });
-//       return;
-//     } catch (err) {
-//       console.error(err);
-//       if (trx) {
-//         await trx.rollback();
-//       }
-//       res.status(500).json({ error: "Error updating book" });
-//     }
-//   };
 module.exports ={
     getBooks,
     getBookById,
