@@ -3,20 +3,20 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 
-import { Table } from "../Author/TableAuthorPage";
-import { Modal } from "./ModalAuthorPage";
+import { Table } from "../PublisherPage/TablePublisherPage";
+import { Modal } from "./ModalPublisherPage"; 
 
-export function AuthorPage(){
+export function PublisherPage(){
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
-    const [author, setAuthor] = useState([]);
+    const [publisher, setPublisher] = useState([]);
 
   useEffect(()=>{
-    const url = 'http://localhost:3100/api/v1/tbdprojectdatabase/authors'
+    const url = 'http://localhost:3100/api/v1/tbdprojectdatabase/publishers'
     axios.get(url)
     .then(response =>{
       console.log(response.data);
-      setAuthor(response.data);
+      setPublisher(response.data);
     })
     .catch((error) => {
       console.log(error);
@@ -24,23 +24,14 @@ export function AuthorPage(){
   },[]);
   
   const [rowToEdit, setRowToEdit] = useState(null);
-  const handleDeleteRow = (targetIndex) => {
-    setAuthor(author.filter((_, index) => index !== targetIndex));
-  };
-
-  const handleEditRow = (index) => {
-    setRowToEdit(index);
-
-    setModalOpen(true);
-  };
 
 
   return (
     <>
       <div id="staffPage" className="justify-center items-center py-20 lg:py-10 px-3 lg:px-28 h-screen text-xl">
-        <div> Tabel Penulis
+        <div> Tabel Publisher
           <Table
-            rows={author}
+            rows={publisher}
           />
           <button
             onClick={() => setModalOpen(true)}

@@ -3,20 +3,20 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 
-import { Table } from "../BookPage/TableBookPage";
-import { Modal } from "./ModalBookPage";
+import { Table } from "../AuthorPage/TableAuthorPage";
+import { Modal } from "./ModalAuthorPage";
 
-export function BookPage(){
+export function AuthorPage(){
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
-  const [book, setBook] = useState([]);
+    const [author, setAuthor] = useState([]);
 
   useEffect(()=>{
-    const url = 'http://localhost:3100/api/v1/tbdprojectdatabase/books'
+    const url = 'http://localhost:3100/api/v1/tbdprojectdatabase/authors'
     axios.get(url)
     .then(response =>{
       console.log(response.data);
-      setBook(response.data);
+      setAuthor(response.data);
     })
     .catch((error) => {
       console.log(error);
@@ -28,9 +28,9 @@ export function BookPage(){
   return (
     <>
       <div id="staffPage" className="justify-center items-center py-20 lg:py-10 px-3 lg:px-28 h-screen text-xl">
-        <div> Tabel Buku
+        <div> Tabel Penulis
           <Table
-            rows={book}
+            rows={author}
           />
           <button
             onClick={() => setModalOpen(true)}

@@ -1,21 +1,18 @@
 import React from "react";
 import axios from "axios";
-import {EditModal} from "./ModalEditBookPage "
 import { useNavigate } from "react-router-dom";
+import { EditModal } from "./ModalEditPublisherPage";
 import { useState, useEffect } from "react";
 
-
-export const Table = ({ rows,}) => {
-
+export const Table = ({ rows}) => {
+  const navigate = useNavigate();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  const navigate = useNavigate();
   const handleEditModalOpen = (row) => {
     setSelectedRow(row);
     setEditModalOpen(true);
   }
-
   return (
     <>
       <div className="flex flex-col">
@@ -25,88 +22,43 @@ export const Table = ({ rows,}) => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th
+                  <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Title
+                      Publisher ID
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Description
+                       Publisher Name
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Author
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Publisher
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Category
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Release Year
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Language
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Price
+                      Telephone
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {rows.map((row, index) => (
                     <tr key={index}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {row.publisher_id}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
-                              {row.book_title}
+                              {row.publisher_name}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.description}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.author_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.publisher_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.category_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.release_year}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.language_name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {row.book_price}
+                        {row.telephone}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a
@@ -114,10 +66,10 @@ export const Table = ({ rows,}) => {
                           className="text-indigo-600 hover:text-indigo-900"
                           onClick={() => {
                             axios
-                              .delete(`http://localhost:3100/api/v1/tbdprojectdatabase/books/${row.book_id}`)
+                              .delete(`http://localhost:3100/api/v1/tbdprojectdatabase/publishers/${row.publisher_id}`)
                               .then((res) => {
-                                navigate('/book-page');
-                                window.location.reload(); 
+                                navigate('/publisher-page');
+                                window.location.reload();
                               })
                               .catch((err) => {
                                 console.log(err);
@@ -128,23 +80,23 @@ export const Table = ({ rows,}) => {
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-
-                      <button
+                        <button
+                          href="#"
                           className="text-indigo-600 hover:text-indigo-900"
-                          onClick={() => handleEditModalOpen(row)}    
-                      >
-                      Edit
-                      </button>
-                          {editModalOpen && selectedRow===row &&(
+                          onClick={() => handleEditModalOpen(row)}
+                        >
+                          Edit
+                        </button>
+                        {editModalOpen && selectedRow===row &&(
                           <EditModal
-                            Book= {row}
+                            Publisher= {row}
                             closeModal={() => {
                             setEditModalOpen(false);
                             setSelectedRow(null);
                           }}
                           />
                           )}
-                        </td>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

@@ -3,8 +3,9 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import React from "react";
 import { HomePage } from "./components/HomePage";
 import { Header } from "./components/Header";
-import { AuthorPage } from "./components/Author/AuthorPage";
+import { AuthorPage } from "./components/AuthorPage/AuthorPage";
 import { BookPage } from "./components/BookPage/BookPage";
+import { PublisherPage } from "./components/PublisherPage/PublisherPage";
 
 function App() {
   return(
@@ -15,6 +16,7 @@ function App() {
       <Route path='/' element={<HomePage />}/>
       <Route path='/author-page' element={<AuthorPage />}/>
       <Route path='/book-page' element={<BookPage />}/>
+      <Route path='/publisher-page' element={<PublisherPage />}/>
       </Routes>
     </BrowserRouter>
     </>

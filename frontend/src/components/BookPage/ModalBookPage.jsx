@@ -10,8 +10,8 @@ export const Modal = ({ closeModal }) => {
 
   const [formState, setFormState] = useState({
     book_title: "",
-    description: "",
-    release_year: "",
+    description: null,
+    release_year: null,
     language_id: "",
     book_price: "",
     publisher_id: "",
@@ -22,13 +22,11 @@ export const Modal = ({ closeModal }) => {
 
   const validateForm = () => {
     const {  book_title,
-    description,
-    release_year,
     language_id,
     book_price,
     publisher_id,
     category_id,author_id} = formState;
-    if (book_title && description && release_year && language_id && book_price && publisher_id && category_id && author_id) {
+    if (book_title && language_id && book_price && publisher_id && category_id && author_id) {
       setErrors("");
       return true;
     } else {
