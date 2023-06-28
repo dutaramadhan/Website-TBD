@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+export const Modal = ({ closeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -19,12 +19,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
     author_id: "",
   });
   const [errors, setErrors] = useState("");
-
-  useEffect(() => {
-    if (defaultValue) {
-      setFormState(defaultValue);
-    }
-  }, [defaultValue]);
 
   const validateForm = () => {
     const {  book_title,

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 
-export const Table = ({ rows, deleteRow, editRow }) => {
+export const Table = ({ rows,}) => {
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);

@@ -24,15 +24,6 @@ export function BookPage(){
   },[]);
   
   const [rowToEdit, setRowToEdit] = useState(null);
-  const handleDeleteRow = (targetIndex) => {
-    setBook(book.filter((_, index) => index !== targetIndex));
-  };
-
-  const handleEditRow = (index) => {
-    setRowToEdit(index);
-
-    setModalOpen(true);
-  };
 
   const handleSubmit = (newRow) => {
     rowToEdit === null
@@ -52,8 +43,6 @@ export function BookPage(){
         <div> Tabel Buku
           <Table
             rows={book}
-            deleteRow={handleDeleteRow}
-            editRow={handleEditRow}
           />
           <button
             onClick={() => setModalOpen(true)}
@@ -67,8 +56,6 @@ export function BookPage(){
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={handleSubmit}
-              defaultValue={rowToEdit !== null && book[rowToEdit]}
             />
           )}
         </div>
