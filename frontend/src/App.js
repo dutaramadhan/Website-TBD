@@ -6,6 +6,7 @@ import { Header } from "./components/Header";
 import { AuthorPage } from "./components/AuthorPage/AuthorPage";
 import { BookPage } from "./components/BookPage/BookPage";
 import { PublisherPage } from "./components/PublisherPage/PublisherPage";
+import {CategoryPage} from "./components/CategoryPage/CategoryPage";
 
 function App() {
   return(
@@ -17,6 +18,7 @@ function App() {
       <Route path='/author-page' element={<AuthorPage />}/>
       <Route path='/book-page' element={<BookPage />}/>
       <Route path='/publisher-page' element={<PublisherPage />}/>
+      <Route path='/category-page' element={<CategoryPage />}/>
       </Routes>
     </BrowserRouter>
     </>
