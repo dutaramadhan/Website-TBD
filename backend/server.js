@@ -5,6 +5,8 @@ const databaseRoutesPublisher = require('./src/routes/publisher');
 const databaseRoutesCategory = require('./src/routes/category');
 const databaseRoutesLanguage = require('./src/routes/language');
 const databaseRoutesAddress = require('./src/routes/address');
+const databaseRoutesStore = require('./src/routes/store');
+const databaseRoutesStaff = require('./src/routes/staff');
 const app = express();
 const port=3100;
 
@@ -29,6 +31,9 @@ app.use('/api/v1/tbdprojectdatabase', databaseRoutesLanguage);
 
 app.use('/api/v1/tbdprojectdatabase', databaseRoutesAddress);
 
+app.use('/api/v1/tbdprojectdatabase', databaseRoutesStore);
+
+app.use('/api/v1/tbdprojectdatabase', databaseRoutesStaff);
 
 app.listen(port, () => {
     console.log(`server running on port ${port}`);

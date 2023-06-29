@@ -13,6 +13,8 @@ export const HomePage =() =>{
                 <button onClick={()=> navigate('/category-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Category Page</button>
                 <button onClick={()=> navigate('/language-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Language Page</button>
                 <button onClick={()=> navigate('/address-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Address Page</button>
+                <button onClick={()=> navigate('/store-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Store Page</button>
+                <button onClick={()=> navigate('/staff-page')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Staff Page</button>
             </li>
         </ul>
     </body>    

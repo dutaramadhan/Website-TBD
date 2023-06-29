@@ -9,6 +9,8 @@ import { PublisherPage } from "./components/PublisherPage/PublisherPage";
 import {CategoryPage} from "./components/CategoryPage/CategoryPage";
 import {LanguagePage} from "./components/LanguagePage/LanguagePage";
 import {AddressPage} from "./components/AddressPage/AddressPage";
+import {StorePage} from "./components/StorePage/StorePage";
+import {StaffPage} from "./components/StaffPage/StaffPage";
 
 function App() {
   return(
@@ -23,6 +25,8 @@ function App() {
       <Route path='/category-page' element={<CategoryPage />}/>
       <Route path='/language-page' element={<LanguagePage />}/>
       <Route path='/address-page' element={<AddressPage />}/>
+      <Route path='/store-page' element={<StorePage />}/>
+      <Route path='/staff-page' element={<StaffPage />}/>
       </Routes>
     </BrowserRouter>
     </>

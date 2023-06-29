@@ -24,7 +24,6 @@ export const Modal = ({ closeModal }) => {
   const [errors, setErrors] = useState("");
 
   useEffect(() => {
-    // Fungsi untuk memuat data publisher saat komponen dimuat
     loadPublishers();
     loadAuthors();
     loadCategories();
