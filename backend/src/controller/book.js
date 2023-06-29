@@ -87,8 +87,8 @@ const updateBookById = async (req, res) => {
 
     const bookQuery = `
       UPDATE book
-      SET book_title = $1, description = $2, release_year = $3, language_id = $4, book_price = $5
-      WHERE book_id = $6`;
+      SET book_title = $1, description = $2, release_year = $3, language_id = $4, book_price = $5, publisher_id = $6
+      WHERE book_id = $7`;
 
     const bookAuthorQuery = `
       UPDATE book_author
@@ -100,7 +100,7 @@ const updateBookById = async (req, res) => {
       SET category_id = $1
       WHERE book_id = $2`;
 
-    const values = [book_title, description, release_year, language_id, book_price, book_id];
+    const values = [book_title, description, release_year, language_id, book_price, publisher_id, book_id];
     
     await pool.query("BEGIN");
     await pool.query("SAVEPOINT update_book")
