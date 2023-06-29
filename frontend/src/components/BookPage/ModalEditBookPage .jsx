@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 export const EditModal = ({ Book, closeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [publishers, setPublishers] = useState([]); 
+  const [authors, setAuthors] = useState([]); 
+  const [categories, setCategories] = useState([]); 
+  const [languages, setLanguages] = useState([]); 
   const navigate = useNavigate();
   
   const {
@@ -31,6 +35,48 @@ export const EditModal = ({ Book, closeModal }) => {
     author_id: author_id
   });
 
+  useEffect(() => {
+    loadAuthors();
+    loadLanguages();
+    loadCategories();
+    loadPublishers();
+  }, []);
+
+  const loadAuthors = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/authors');
+      setAuthors(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadLanguages = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/languages');
+      setLanguages(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/categories');
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadPublishers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/publishers');
+      setPublishers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [errors, setErrors] = useState("");
 
@@ -73,6 +119,7 @@ export const EditModal = ({ Book, closeModal }) => {
         console.log(response.data);
         closeModal();
         navigate('/book-page');
+        window.location.reload();
       })
       .catch(error => {
         console.error(error);
@@ -81,7 +128,6 @@ export const EditModal = ({ Book, closeModal }) => {
       .finally(() => {
         setIsLoading(false);
       });
-      window.location.reload();
   };
   
   return (
@@ -108,17 +154,6 @@ export const EditModal = ({ Book, closeModal }) => {
               className="border border-black rounded-md p-1 text-base"
             />
           </div>
-          {/* <div className="flex flex-col mb-4">
-            <label htmlFor="description" className="font-semibold">
-              Author
-            </label>
-            <input
-              name="email"
-              onChange={handleChange}
-              value={formState.email}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> */}
           <div className="flex flex-col mb-4">
             <label htmlFor="description" className="font-semibold">
               Description
@@ -144,65 +179,86 @@ export const EditModal = ({ Book, closeModal }) => {
           </div>
           <div className="flex flex-col mb-4">
             <label htmlFor="language_id" className="font-semibold">
-              Language ID
-            </label>
-            <input
-            type="number"
-              name="language_id"
-              onChange={handleChange}
-              value={formState.language_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> 
-          <div className="flex flex-col mb-4">
-            <label htmlFor="book_price" className="font-semibold">
-              Price
-            </label>
-            <input
-            type="number"
-              name="book_price"
-              onChange={handleChange}
-              value={formState.book_price}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label htmlFor="publisher_id" className="font-semibold">
-              Publisher ID
-            </label>
-            <input
-            type="number"
-              name="publisher_id"
-              onChange={handleChange}
-              value={formState.publisher_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label htmlFor="category_id" className="font-semibold">
-              Category ID
-            </label>
-            <input
-            type="number"
-              name="category_id"
-              onChange={handleChange}
-              value={formState.category_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> 
-          <div className="flex flex-col mb-4">
-            <label htmlFor="author_id" className="font-semibold">
-              Author ID
-            </label>
-            <input
-            type="number"
-              name="author_id"
-              onChange={handleChange}
-              value={formState.author_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> 
-          {errors && <div className="error">{`Please include: ${errors}`}</div>}
+          Language
+        </label>
+        <select
+          name="language_id"
+          onChange={handleChange}
+          value={formState.language_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          {languages.map(language => (
+            <option key={language.language_id} value={language.language_id}>
+              {language.language_name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex flex-col mb-4">
+        <label htmlFor="book_price" className="font-semibold">
+          Price
+        </label>
+        <input
+          type="number"
+          name="book_price"
+          onChange={handleChange}
+          value={formState.book_price}
+          className="border border-black rounded-md p-1 text-base"
+        />
+      </div>
+      <div className="flex flex-col mb-4">
+        <label htmlFor="publisher_id" className="font-semibold">
+          Publisher
+        </label>
+        <select
+          name="publisher_id"
+          onChange={handleChange}
+          value={formState.publisher_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          {publishers.map(publisher => (
+            <option key={publisher.publisher_id} value={publisher.publisher_id}>
+              {publisher.publisher_name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex flex-col mb-4">
+        <label htmlFor="category_id" className="font-semibold">
+          Category
+        </label>
+        <select
+          name="category_id"
+          onChange={handleChange}
+          value={formState.category_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          {categories.map(category => (
+            <option key={category.category_id} value={category.category_id}>
+              {category.category_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="author_id" className="font-semibold">
+          Author
+        </label>
+        <select
+          name="author_id"
+          onChange={handleChange}
+          value={formState.author_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          {authors.map(author => (
+            <option key={author.author_id} value={author.author_id}>
+              {author.author_name}
+            </option>
+          ))}
+        </select>
+      </div>
+      {errors && <div className="error">{`Please include: ${errors}`}</div>}
           <button 
                 type="submit"
                 className="mt-4 border-none bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md"

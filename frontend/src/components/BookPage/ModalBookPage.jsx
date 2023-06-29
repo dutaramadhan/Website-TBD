@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 export const Modal = ({ closeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
+  const [publishers, setPublishers] = useState([]); 
+  const [authors, setAuthors] = useState([]); 
+  const [categories, setCategories] = useState([]); 
+  const [languages, setLanguages] = useState([]); 
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
@@ -20,12 +23,52 @@ export const Modal = ({ closeModal }) => {
   });
   const [errors, setErrors] = useState("");
 
+  useEffect(() => {
+    // Fungsi untuk memuat data publisher saat komponen dimuat
+    loadPublishers();
+    loadAuthors();
+    loadCategories();
+    loadLanguages();
+  }, []);
+
+  const loadAuthors = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/authors');
+      setAuthors(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadLanguages = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/languages');
+      setLanguages(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/categories');
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadPublishers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3100/api/v1/tbdprojectdatabase/publishers');
+      setPublishers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const validateForm = () => {
-    const {  book_title,
-    language_id,
-    book_price,
-    publisher_id,
-    category_id,author_id} = formState;
+    const { book_title, language_id, book_price, publisher_id, category_id, author_id } = formState;
     if (book_title && language_id && book_price && publisher_id && category_id && author_id) {
       setErrors("");
       return true;
@@ -47,11 +90,11 @@ export const Modal = ({ closeModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) return;
-  
+
     setIsLoading(true);
-  
+
     axios.post('http://localhost:3100/api/v1/tbdprojectdatabase/books', formState)
       .then(response => {
         console.log(response.data);
@@ -65,9 +108,9 @@ export const Modal = ({ closeModal }) => {
       .finally(() => {
         setIsLoading(false);
       });
-      window.location.reload();
+    window.location.reload();
   };
-  
+
   return (
     <div
       className="fixed z-10 inset-0 flex items-center justify-center bg-black bg-opacity-40"
@@ -92,17 +135,6 @@ export const Modal = ({ closeModal }) => {
               className="border border-black rounded-md p-1 text-base"
             />
           </div>
-          {/* <div className="flex flex-col mb-4">
-            <label htmlFor="description" className="font-semibold">
-              Author
-            </label>
-            <input
-              name="email"
-              onChange={handleChange}
-              value={formState.email}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> */}
           <div className="flex flex-col mb-4">
             <label htmlFor="description" className="font-semibold">
               Description
@@ -115,91 +147,118 @@ export const Modal = ({ closeModal }) => {
             />
           </div>
           <div className="flex flex-col mb-4">
-            <label htmlFor="relase_year" className="font-semibold">
-              Release Year
-            </label>
-            <input
-            type="number"
-              name="release_year"
-              onChange={handleChange}
-              value={formState.release_year}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label htmlFor="language_id" className="font-semibold">
-              Language ID
-            </label>
-            <input
-            type="number"
-              name="language_id"
-              onChange={handleChange}
-              value={formState.language_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> 
-          <div className="flex flex-col mb-4">
-            <label htmlFor="book_price" className="font-semibold">
-              Price
-            </label>
-            <input
-            type="number"
-              name="book_price"
-              onChange={handleChange}
-              value={formState.book_price}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label htmlFor="publisher_id" className="font-semibold">
-              Publisher ID
-            </label>
-            <input
-            type="number"
-              name="publisher_id"
-              onChange={handleChange}
-              value={formState.publisher_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div>
-          <div className="flex flex-col mb-4">
-            <label htmlFor="category_id" className="font-semibold">
-              Category ID
-            </label>
-            <input
-            type="number"
-              name="category_id"
-              onChange={handleChange}
-              value={formState.category_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> 
-          <div className="flex flex-col mb-4">
-            <label htmlFor="author_id" className="font-semibold">
-              Author ID
-            </label>
-            <input
-            type="number"
-              name="author_id"
-              onChange={handleChange}
-              value={formState.author_id}
-              className="border border-black rounded-md p-1 text-base"
-            />
-          </div> 
-          {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button 
-                type="submit"
-                className="mt-4 border-none bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md"
-                onClick={
-                  handleSubmit
-                  }
-                disabled={isLoading} // Menonaktifkan tombol saat isLoading true
-          >
-            {isLoading ? 'Submitting...' : 'Submit'}
-          </button>
-
-        </form>
+        <label htmlFor="release_year" className="font-semibold">
+          Release Year
+        </label>
+        <input
+          type="number"
+          name="release_year"
+          onChange={handleChange}
+          value={formState.release_year}
+          className="border border-black rounded-md p-1 text-base"
+        />
       </div>
-    </div>
-  );
-};
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="language_id" className="font-semibold">
+          Language
+        </label>
+        <select
+          name="language_id"
+          onChange={handleChange}
+          value={formState.language_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          <option value="">Select Language</option>
+          {languages.map(language => (
+            <option key={language.language_id} value={language.language_id}>
+              {language.language_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="book_price" className="font-semibold">
+          Price
+        </label>
+        <input
+          type="number"
+          name="book_price"
+          onChange={handleChange}
+          value={formState.book_price}
+          className="border border-black rounded-md p-1 text-base"
+        />
+      </div>
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="publisher_id" className="font-semibold">
+          Publisher
+        </label>
+        <select
+          name="publisher_id"
+          onChange={handleChange}
+          value={formState.publisher_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          <option value="">Select Publisher</option>
+          {publishers.map(publisher => (
+            <option key={publisher.publisher_id} value={publisher.publisher_id}>
+              {publisher.publisher_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="category_id" className="font-semibold">
+          Category
+        </label>
+        <select
+          name="category_id"
+          onChange={handleChange}
+          value={formState.category_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          <option value="">Select Category</option>
+          {categories.map(category => (
+            <option key={category.category_id} value={category.category_id}>
+              {category.category_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col mb-4">
+        <label htmlFor="author_id" className="font-semibold">
+          Author
+        </label>
+        <select
+          name="author_id"
+          onChange={handleChange}
+          value={formState.author_id}
+          className="border border-black rounded-md p-1 text-base"
+        >
+          <option value="">Select Author</option>
+          {authors.map(author => (
+            <option key={author.author_id} value={author.author_id}>
+              {author.author_name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {errors && <div className="error">{`Please include: ${errors}`}</div>}
+      <button
+        type="submit"
+        className="mt-4 border-none bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md"
+        onClick={handleSubmit}
+        disabled={isLoading} // Menonaktifkan tombol saat isLoading true
+      >
+        {isLoading ? 'Submitting...' : 'Submit'}
+      </button>
+    </form>
+  </div>
+</div>
+)}
+          

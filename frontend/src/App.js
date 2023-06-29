@@ -7,6 +7,8 @@ import { AuthorPage } from "./components/AuthorPage/AuthorPage";
 import { BookPage } from "./components/BookPage/BookPage";
 import { PublisherPage } from "./components/PublisherPage/PublisherPage";
 import {CategoryPage} from "./components/CategoryPage/CategoryPage";
+import {LanguagePage} from "./components/LanguagePage/LanguagePage";
+import {AddressPage} from "./components/AddressPage/AddressPage";
 
 function App() {
   return(
@@ -19,6 +21,8 @@ function App() {
       <Route path='/book-page' element={<BookPage />}/>
       <Route path='/publisher-page' element={<PublisherPage />}/>
       <Route path='/category-page' element={<CategoryPage />}/>
+      <Route path='/language-page' element={<LanguagePage />}/>
+      <Route path='/address-page' element={<AddressPage />}/>
       </Routes>
     </BrowserRouter>
     </>
